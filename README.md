@@ -30,14 +30,14 @@ It enables batch rendering, batch specifying of locations, and automatic organiz
 1 点击Start.bat，首次运行，可能会安装python环境
 
 2 选择对应功能：
-    [0]扫描文件夹内所有的Blender工程，并创建同名空文件夹
-    [1]启动渲染程序
-        -自动创建空文件夹，用于存储渲染成果
-        -用户指定Blender安装位置
-        -用户指定渲染位置
-        -无人监管批量渲染
-        -渲染完成后发送飞书消息提示渲染完成
-
+   [0]扫描文件夹内所有的Blender工程，并创建同名空文件夹
+   [1]启动渲染程序
+      -自动创建空文件夹，用于存储渲染成果
+      -用户指定Blender安装位置
+      -用户指定渲染位置
+      -无人监管批量渲染
+      -渲染完成后发送飞书消息提示渲染完成
+   
 
 
 
