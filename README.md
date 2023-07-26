@@ -9,10 +9,10 @@ It enables batch rendering, batch specifying of locations, and automatic organiz
 - 快速为Blender工程，创建空文件夹，用于存放渲染成果
 - 批量工程渲染
 - 快速指定渲染位置到各自空文件夹，还是到Blender工程设置
+- 用户可自定义飞书机器人的Webhook地址
 - 渲染完成后发送WOE团队飞书提示
 
 # 未来功能
-- 用户可自定义飞书机器人的Webhook地址
 - 用户无需每次运行时选择Blender软件路径
 
 # 使用方法
@@ -29,7 +29,12 @@ It enables batch rendering, batch specifying of locations, and automatic organiz
 
 1 点击Start.bat，首次运行，可能会安装python环境
 
-2 选择对应功能：
+2 打开/py/conf.json，在双引号里填写你的webhook地址
+
+      *webhook url可以在【飞书机器人助手】的【webhook】步骤里看到
+      *你可以在飞书，自定义配置渲染完成后的操作
+
+3 选择对应功能：
    [0]扫描文件夹内所有的Blender工程，并创建同名空文件夹
    [1]启动渲染程序
       -自动创建空文件夹，用于存储渲染成果
