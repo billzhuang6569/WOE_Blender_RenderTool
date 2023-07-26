@@ -1,9 +1,12 @@
 @echo off
 
+echo Running...
+
 :: check if Python is installed
 python --version
 IF ERRORLEVEL 1 (
-    echo Python is not installed. Installing Python...
+    echo Python is not installed.
+    echo Installing Python...
 
     :: download Python installer
     powershell -Command "& { Invoke-WebRequest https://www.python.org/ftp/python/3.9.6/python-3.9.6-amd64.exe -OutFile .\pythonInstaller.exe }"
@@ -14,20 +17,29 @@ IF ERRORLEVEL 1 (
     :: remove Python installer
     del .\pythonInstaller.exe
 ) else (
-    echo Python is already installed.
+    echo Python checked!
 )
+
+echo Almost done! Installing Environment in 5 sec
+timeout /t 5 /nobreak
 
 :: install Requests library
 pip3 install requests
 IF ERRORLEVEL 1 (
     echo Failed to install Requests library.
+    echo Don't worry! Just close and re-run the Start.bat
 ) else (
     echo Successfully installed Requests library.
 )
 
 :: run python
-echo running Menu.py...
+echo Ready!!
+echo Running...
+echo ---------------
+
 python ".\py\Menu.py"
 
-@echo Installation completed. Press any key to exit...
+@echo Render Completed!
+@echo Press any key to exit!
+@echo See you next time!
 pause
