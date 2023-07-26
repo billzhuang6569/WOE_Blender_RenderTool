@@ -9,7 +9,11 @@ with open('finish.json', 'r') as f:
     finish = json.load(f)
 
 # 设置 webhook 的 URL
-webhook_url = "https://www.feishu.cn/flow/api/trigger-webhook/834bffb7db20e0cd50a3d13e4ba5153d"
+with open("conf.json", "r") as f:
+    conf = json.load(f)
+webhook_url = conf["webhook_url"]
+if not webhook_url:
+    raise ValueError("Webhook URL is empty. Please set a webhook URL in conf.json.")
 
 now = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
 
