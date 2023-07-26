@@ -37,9 +37,10 @@ echo Ready!!
 echo Running...
 echo ---------------
 
-python ".\py\Menu.py"
+start "BlenderRenderTool" /D %cd% python ".\py\Menu.py"
 
 @echo Render Completed!
 @echo Press any key to exit!
 @echo See you next time!
 pause
+taskkill /FI "WINDOWTITLE eq BlenderRenderTool*" /T /F
