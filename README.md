@@ -1,6 +1,5 @@
 # WOE_Blender_RenderTool
 
-
 A Blender rendering command line targeted at users with no coding background.
 
 It enables batch rendering, batch specifying of locations, and automatic organization of rendering folders.
@@ -8,6 +7,11 @@ It enables batch rendering, batch specifying of locations, and automatic organiz
 一个Blender渲染命令行，针对无代码基础使用者。
 
 可实现批量渲染、批量指定位置、自动组织渲染文件夹功能。
+
+
+![屏幕截图 2023-09-05 054512](https://github.com/billzhuang6569/WOE_Blender_RenderTool/assets/68314048/fc336287-200f-4c02-927c-a4478022c657)
+
+
 
 # 1.1更新
 
