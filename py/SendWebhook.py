@@ -5,11 +5,11 @@ from datetime import datetime
 print(f'所有项目渲染已完成，正在发送 webhook')
 print(f'此环节将会触发飞书机器人，向WOE团队发送消息')
 
-with open('finish.json', 'r') as f:
+with open('finish.json', 'r', encoding='utf-8') as f:
     finish = json.load(f)
 
 # 设置 webhook 的 URL
-with open("conf.json", "r") as f:
+with open("conf.json", "r", encoding='utf-8') as f:
     conf = json.load(f)
 webhook_url = conf["webhook_url"]
 if not webhook_url:

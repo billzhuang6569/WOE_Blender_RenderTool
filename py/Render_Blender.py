@@ -9,60 +9,95 @@ from datetime import datetime
 os_type = platform.system()
 blender_exe = ''
 
-# 确认Blender路径
-def ask_user_win():
-    print('')
-    print('')
-    print(f'-----------------')
-    print(f'[1] 输入Blender安装盘符(C/D/E/F)')
-    print(f'[2] 自己输入完整路径')
-    i = input(f'请输入序号：')
-    print(f'-----------------')
-    return int(i)
 
-def checkpath(path):
-    if not os.path.exists(path):
-        print("路径不存在：", path)
-        blender_exe = getBlender()
-        return
+# 询问Blender路径
+def Get_Path():
 
-    if not os.path.isfile(path):
-        print("路径不是一个文件：", path)
-        blender_exe = getBlender()
-        return
-
-def getBlender():
     if os_type == 'Windows':
-        id = ask_user_win()
-        if id == 1:
+        Conf_Path = Get_Conf_Path()
+        check_path = checkpath(Conf_Path)
+        if check_path == True:
+            Blender_Path = Conf_Path
+            print(f'你的Blender路径：')
+            print(Blender_Path)
+        else:
             print('')
             print('')
             print(f'-----------------')
-            user_input= input(f'请输入Blender安装盘符：')
-            file_path = r"Program Files\Blender Foundation\Blender 3.4\blender-launcher.exe"
-            blender_exe = os.path.join(user_input + ':', file_path)
-        elif id == 2:
-            print('')
-            print('')
+            print(f'未在conf.json中检测到有效路径')
+            print(f'接下来请设置Blender路径')
+            print(f'右键点击Blender快捷方式，复制属性中的路径')
+            print(f'请不要复制引号')
             print(f'-----------------')
-            print(r'路径示例：D:\Program Files\Blender Foundation\Blender 3.4\blender-launcher.exe')
-            user_input = input(f'请输入完整路径：')
-            blender_exe = user_input
+            print(f'你的路径应该类似这样：')
+            print(r'D:\Program Files\Blender Foundation\Blender 3.4\blender-launcher.exe')
+            print(f'-----------------')
+            while True:  # 无限循环，直到找到有效的路径
+                user_input = input('请输入你复制的路径：')
+                check_path = checkpath(user_input)
 
-    elif os_type == 'Darwin':  # Mac OS
-        blender_exe = "/Applications/Blender.app/Contents/MacOS/Blender"
+                if check_path:  # 如果路径有效
+                    Blender_Path = user_input
+                    Write_Conf_Path(Blender_Path)
+                    print(f"设置成功，你的Blender路径是 {Blender_Path}")
+                    break  # 跳出循环
+                else:  # 如果路径无效
+                    print("路径无效或文件不存在，请重新输入.")
+    elif os_type == 'Darwin':
+        Blender_Path = "/Applications/Blender.app/Contents/MacOS/Blender"
     else:
         print("不支持的操作系统类型。")
         exit()
-    checkpath(blender_exe)
-    return blender_exe
+
+    return Blender_Path
+
+
+
+# 检查conf中的Blender路径
+def Get_Conf_Path():
+    # 检查conf.json，若是空，返回0
+    with open('conf.json', 'r', encoding='utf-8') as f:
+        conf_data = json.load(f)
+
+    Blender_Path = conf_data.get('blender_path','')
+    is_valid_path = checkpath(Blender_Path)
+    if is_valid_path:
+        return Blender_Path
+    else:
+        return False
+
+# 写入路径到conf.json
+def Write_Conf_Path(path):
+    with open('conf.json', 'r', encoding='utf-8') as file:
+        config = json.load(file)
+
+    config['blender_path'] = path
+
+    with open('conf.json', 'w', encoding='utf-8') as file:
+        json.dump(config, file, indent=4)
+
+
+
+# 检查Blenderpath是否合法
+def checkpath(path):
+    if path == False:
+        return False
+    elif os.path.exists(path):
+        return True
+    else:
+        return False
+
+
+
 
 # 菜单
 menu_list = {
-    1: '开始渲染，输出位置：【工程同名文件夹】',
-    2: '开始渲染，输出位置：【按Blender工程设置】'
+    1: '渲染到【.blend文件同名文件夹】',
+    2: '渲染到【Blender工程目标文件夹】'
 }
 
+
+# 用户输入菜单
 def menu():
     print('')
     print('')
@@ -72,6 +107,7 @@ def menu():
         print(f'[{key}] {value}')
     func_id = input('请输入对应工具的序号：')
     return func_id
+
 
 # 获取每个工程对应的渲染位置
 def Render_Path():
@@ -100,9 +136,17 @@ def Render_Path():
     return blend_and_render_path, blend_files
 
 
+
 # 开始渲染所有blender文件，并将渲染路径指定到同名文件夹
 def Render_to_Folder(blender_exe, blend_files, blend_and_render_path):
     finish = []
+
+    print('以下Blender文件将被渲染：')
+    for blend_file in blend_files:
+        print(blend_file)
+
+    print(f'-----------------')
+
     for blend_file in blend_files:
         now = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
         print(f' ')
@@ -132,8 +176,16 @@ def Render_to_Folder(blender_exe, blend_files, blend_and_render_path):
 
     return finish
 
+
 def Render_to_Setting(blender_exe, blend_files):
     finish = []
+
+    print('以下Blender文件将被渲染：')
+    for blend_file in blend_files:
+        print(blend_file)
+
+    print(f'-----------------')
+
     for blend_file in blend_files:
         now = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
         print(f' ')
@@ -160,6 +212,9 @@ def Render_to_Setting(blender_exe, blend_files):
 
     return finish
 
+
+
+
 #发送Webhook
 # 获取Menu.py的目录
 current_dir = os.path.dirname(os.path.abspath(__file__))
@@ -178,17 +233,17 @@ def SendWebhook(finish):
 
 
 
-# Main
-blender_exe = getBlender()
 
+blender_exe = Get_Path()
 func_id = menu()
 blend_and_render_path, blend_files = Render_Path()
+
+
 if func_id == '1':
     finish = Render_to_Folder(blender_exe, blend_files, blend_and_render_path)
     SendWebhook(finish)
 if func_id == '2':
     finish = Render_to_Setting(blender_exe, blend_files)
     SendWebhook(finish)
-
 
 
