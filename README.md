@@ -9,6 +9,11 @@ It enables batch rendering, batch specifying of locations, and automatic organiz
 
 可实现批量渲染、批量指定位置、自动组织渲染文件夹功能。
 
+# 1.1更新
+
+- 记忆Blender路径
+- 优化体验
+
 # 1.0功能
 
 - 快速为Blender工程，创建空文件夹，用于存放渲染成果
@@ -19,7 +24,9 @@ It enables batch rendering, batch specifying of locations, and automatic organiz
 
 # 未来功能
 
-- 用户无需每次运行时选择Blender软件路径
+- 自动Kill Blender
+- 提示Blender渲染日志
+- 自动检测渲染BUG或错误
 
 # 使用方法
 
@@ -32,28 +39,30 @@ It enables batch rendering, batch specifying of locations, and automatic organiz
 *示例  
 C:/Render  
 |-py/  
-|-Start.bat  
+|-1 Install Environment.bat
+|-2 Start.bat  
 |-1.blend  
 |-2.blend  
 |-3.blend
-> 2 打开/py/conf.json，在双引号里填写你的webhook地址
+> 2 打开/py/conf.json，在双引号里填写你的webhook地址和Blender路径
 
 
 	*webhook url可以在【飞书机器人助手】的【webhook】步骤里看到  
 *你可以在飞书，自定义配置渲染完成后的操作
-> 3点击Start.bat，首次运行，可能会安装python环境
+> 3 首次运行，点击1 Install Environment.bat。使用时点击2 Start.bat，
 
 > 4 选择对应功能
 
-
-	[0] 扫描文件夹内所有的Blender工程，并创建同名空文件夹
-
-	[1] 启动渲染程序  
 - 自动创建空文件夹，用于存储渲染成果  
 - 用户指定Blender安装位置  
 - 指定渲染位置  
 - 无人监管批量渲染  
 - 渲染完成后发送飞书消息提示渲染完成
+
+
+
+
+
 
 # 为啥做这个
 
