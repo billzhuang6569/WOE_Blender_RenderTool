@@ -9,6 +9,14 @@ from datetime import datetime
 os_type = platform.system()
 blender_exe = ''
 
+# 读取Conf
+def Read_Conf():
+    with open('conf.json', 'r', encoding='utf-8') as file:
+        config = json.load(file)
+    alarm_start = config.get('alarm_start', None)
+    alarm_finish = config.get('alarm_finish', None)
+    return alarm_start, alarm_finish
+
 
 # 询问Blender路径
 def Get_Path():
@@ -139,11 +147,13 @@ def Render_Path():
 
 # 开始渲染所有blender文件，并将渲染路径指定到同名文件夹
 def Render_to_Folder(blender_exe, blend_files, blend_and_render_path):
+    start = []
     finish = []
 
     print('以下Blender文件将被渲染：')
     for blend_file in blend_files:
         print(blend_file)
+
 
     print(f'-----------------')
 
@@ -152,6 +162,13 @@ def Render_to_Folder(blender_exe, blend_files, blend_and_render_path):
         print(f' ')
         print(f'-----------------')
         print(f'正在渲染{blend_file} at {now}')
+
+        #发送消息
+        alarm_start, alarm_finish = Read_Conf()
+        if alarm_start == 'True':
+            start.append({'提示': '渲染开始！', 'Blender工程': blend_file, '开始时间': now})
+
+        SendWebhook(start)
 
         # 获取渲染路径
         render_path = blend_and_render_path[blend_file]
@@ -178,6 +195,7 @@ def Render_to_Folder(blender_exe, blend_files, blend_and_render_path):
 
 
 def Render_to_Setting(blender_exe, blend_files):
+    start = []
     finish = []
 
     print('以下Blender文件将被渲染：')
@@ -191,6 +209,13 @@ def Render_to_Setting(blender_exe, blend_files):
         print(f' ')
         print(f'-----------------')
         print(f'正在渲染{blend_file} at {now}')
+
+        #发送消息
+        alarm_start, alarm_finish = Read_Conf()
+        if alarm_start == 'True':
+            start.append({'提示': '渲染开始！', 'Blender工程': blend_file, '开始时间': now})
+
+        SendWebhook(start)
 
         # 设置渲染命令
         command = [blender_exe, "-b", blend_file, "-a"]
